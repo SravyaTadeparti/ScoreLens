@@ -1,18 +1,22 @@
 .nav-bar{
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
     width:100%;
     height:90px;
     display:flex;
     align-items:center;
-    background-color: #123359;
-    box-shadow: 0 4px 4px rgb(34, 34, 34);
+    background-color: hsl(212, 66%, 16%);
+    box-shadow: 0 3px 3px #0e2744;
     padding:0 30px;
     justify-content: space-between;
     box-sizing: border-box;
+    font-family:'Times New Roman', Times, serif;
 }
-
+#logo-container{
+    display:flex;
+    flex-direction: row;
+}
 #logo{
     height:70px;
     width:70px;
@@ -25,7 +29,7 @@
 }
 
 .navbar-links ul li {
-    margin: 0 25px;
+    margin: 0 45px;
 }
 
 .navbar-links ul li a {
@@ -36,5 +40,12 @@
   }
   
 .navbar-links ul li a:hover {
-    color: rgb(255, 225, 0); 
+    color: rgb(255, 208, 0); 
+}
+
+.scorelens-name{
+    padding:0.3em;
+    color: rgb(255, 208, 0);
+    font-size: 2em;
+    font-family: cursive;
 }

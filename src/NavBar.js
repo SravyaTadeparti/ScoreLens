@@ -7,6 +7,7 @@ const NavBar = () => {
         <nav className="nav-bar">
             <div id="logo-container">
                 <img id="logo" src="/logo.png" alt="logo"></img>
+                <div className="scorelens-name">ScoreLens</div>
             </div>
             <div className="navbar-links">
                 <ul>

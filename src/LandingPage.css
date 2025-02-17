@@ -3,13 +3,40 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #c1d4e9;
-    /* overflow-x: hidden; */
+    /* background-color: #14273f; */
+    background-color: #e7e9ec;
+
 }
 .section{
     display:flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    height: 100vh;
+    height: 75vh;
 }
+
+#section-1{
+    background-color: #0e2744;
+    color:aliceblue;
+}
+
+p{
+    font-size:2.5em;
+    font-family:cursive;
+}
+
+
+#scorelens-name{
+    color:rgb(255, 208, 0);
+    font-size: 2.5em;
+    font-family: cursive;
+    font-weight:bold;
+}
+
+.section-1-left-title{
+    display:flex;
+    flex-direction: row;
+    gap:1em;
+}
+
+  

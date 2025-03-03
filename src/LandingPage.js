@@ -53,8 +53,20 @@ const LandingPage = () => {
                             <img className="analytics-image" id='image-4' src='/graph4.png'></img>
                         </div>
                     </div>
-                </div>                
+                </div>
+                <div className='section' id='about-page'>
+                    <div className='section-left'>
+                        <div className='page-title'>
+                            ABOUT US
+                        </div>
 
+
+                    </div>
+                    <div className='section-right'>
+
+                    </div>
+
+                </div>             
             </div>
         </div>
     );

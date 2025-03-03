@@ -11,7 +11,7 @@
     padding:0 30px;
     justify-content: space-between;
     box-sizing: border-box;
-    font-family:'Times New Roman', Times, serif;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 #logo-container{
     display:flex;
@@ -46,6 +46,6 @@
 .scorelens-name{
     padding:0.3em;
     color: rgb(255, 208, 0);
-    font-size: 2em;
-    font-family: cursive;
+    font-size: 2.5em;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

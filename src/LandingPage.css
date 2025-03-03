@@ -9,13 +9,13 @@ html{
     justify-content: center;
     /* background-color: #14273f; */
     background-color: #e7e9ec;
-
 }
 .section{
     display:flex;
     flex-direction: row;
     height: 75vh;
     overflow:hidden;
+    padding-top: 10em;
 }
 
 #section-1{
@@ -82,7 +82,7 @@ p{
 }
 
 .page-title{
-    font-size: 3em;
+    font-size: 4em;
     font-weight: bold;
     /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -156,14 +156,34 @@ p{
 #about-page{
     display: flex;
     padding:50px;
+    /* margin:0; */
+}
+
+.section-left, .section-right {
+    flex:1;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .section-left{
-    flex:1;
+    margin-left: 100px;
 }
 
 .section-right{
-    flex:1;
+    margin-right: 300px;
+}
+
+.about-para{
+    font-size: 1.2em;
+    max-width: 80%;
+    text-align: left;
+}
+
+.aboutus-img{
+    /* width:500px;
+    height:500px; */
+    margin-left:0;
 }
 
   

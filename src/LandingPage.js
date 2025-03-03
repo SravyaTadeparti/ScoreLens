@@ -59,13 +59,13 @@ const LandingPage = () => {
                         <div className='page-title'>
                             ABOUT US
                         </div>
-
-
+                        <div className='about-para'>
+                            At ScoreLens, we make student scores easy to understand with powerful visualizations. Whether you're a professor looking to track class performance or a student analyzing your progress, our interactive graphs turn raw data into clear insights. No more spreadsheets—just clean, intuitive visuals that help you focus on improvement. Join us in transforming the way academic performance is understood
+                        </div>
                     </div>
                     <div className='section-right'>
-
+                        <img className="aboutus-img" src="/aboutus.png" alt="aboutus-img"></img>
                     </div>
-
                 </div>             
             </div>
         </div>

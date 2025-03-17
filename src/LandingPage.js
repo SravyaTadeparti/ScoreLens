@@ -15,6 +15,7 @@ const LandingPage = () => {
                             <p id="scorelens-name">SCORES</p>
                         </div>
                         <p id="section-1-left-paragraph">Track your scores and watch progress come to life with clear, easy-to-read visualizations. Whether you're a professor managing student performance or a student tracking your own achievements, simply enter your scores and get dynamic charts that show how you're doing. Stay on top of your goals with all the insights you need, whether you're looking to improve or just keeping track.</p>
+                        <div className='start-button'>Get started</div>
                     </div>
                     <div className="section-1-right">
                         <img className="graph" id="graph1" src="/graph1.png" alt="graph1"></img>
@@ -23,16 +24,8 @@ const LandingPage = () => {
 
                 </div>
 
-                <img id="wave" src="/wave.svg" alt="wave"></img>
-
-                <div className='section' id="features-page">
-                    <div className='page-title'>Features</div>
-                    <div className='features-container'>
-                        <div className='feature'></div>
-                        <div className='feature'></div>
-                        <div className='feature'></div>
-                    </div>
-                </div>
+                <img id="wave" src="/wave2.svg" alt="wave"></img>
+                
                 <div className='section' id="analytics-page">
                     <div className='page-title'>Analytics</div>
                     <div className='analytics-grid'>
@@ -54,6 +47,20 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </div>
+                <div className='section' id="features-page">
+                    <div className='page-title'>Our Features and Services</div>
+
+                    <div className='features-container'>
+                        <div className='feature-bar'></div>
+
+                        <div className='feature'></div>
+                        <div className='feature'></div>
+
+                        <div className='feature'></div>
+                        <div className='feature'></div>
+                        
+                    </div>
+                </div>
                 <div className='section' id='about-page'>
                     <div className='section-left'>
                         <div className='page-title'>
@@ -65,6 +72,15 @@ const LandingPage = () => {
                     </div>
                     <div className='section-right'>
                         <img className="aboutus-img" src="/aboutus.png" alt="aboutus-img"></img>
+                    </div>
+                </div>
+                <div className='section' id='contact-page'>
+                    <div className='contact-element'>
+                        <div className='contact-left'>
+                            <div id='contact-title'>Contact Us</div>
+                            <div id='contact-para'>Name: Sravya Tadeparti</div>
+                        </div>
+                        <div className='contact-right'></div>
                     </div>
                 </div>             
             </div>

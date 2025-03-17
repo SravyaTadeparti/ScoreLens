@@ -53,11 +53,18 @@ const LandingPage = () => {
                     <div className='features-container'>
                         <div className='feature-bar'></div>
 
+                        <div className='feature'>
+                            <div className='feature-cirlce'></div>
+                        </div>
                         <div className='feature'></div>
-                        <div className='feature'></div>
+                            <div className='feature-cirlce'></div>
+                        <div className='feature'>
+                            <div className='feature-cirlce'></div>
+                        </div>
+                        <div className='feature'>
+                            <div className='feature-cirlce'></div>
 
-                        <div className='feature'></div>
-                        <div className='feature'></div>
+                        </div>
                         
                     </div>
                 </div>

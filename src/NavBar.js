@@ -14,8 +14,8 @@ const NavBar = () => {
             <div className="navbar-links">
                 <ul>
                     {/* <li><Link to="/Login">Login</Link></li> */}
-                    <li><a href="#features-page">Features</a></li>
                     <li><a href="#analytics-page">Analytics</a></li>
+                    <li><a href="#features-page">Features</a></li>
                     <li><a href="#about-page">About</a></li>
                     <li><a href="#contact-page">Contact</a></li>
                 </ul>

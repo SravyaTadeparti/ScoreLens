@@ -51,19 +51,24 @@ const LandingPage = () => {
                     <div className='page-title'>Our Features and Services</div>
 
                     <div className='features-container'>
-                        <div className='feature-bar'></div>
+                        <div className='feature-bar'>
+                        </div>
 
                         <div className='feature'>
                             <div className='feature-cirlce'></div>
-                        </div>
-                        <div className='feature'></div>
-                            <div className='feature-cirlce'></div>
-                        <div className='feature'>
-                            <div className='feature-cirlce'></div>
+                            Notify students when there's an update in their scores
                         </div>
                         <div className='feature'>
                             <div className='feature-cirlce'></div>
-
+                            Feedback form to request changes and give feedback
+                        </div>
+                        <div className='feature'>
+                            <div className='feature-cirlce'></div>
+                            Analytics for what-if cases
+                        </div>
+                        <div className='feature'>
+                            <div className='feature-cirlce'></div>
+                            Descriptive graphs for various analytics 
                         </div>
                         
                     </div>
@@ -85,9 +90,11 @@ const LandingPage = () => {
                     <div className='contact-element'>
                         <div className='contact-left'>
                             <div id='contact-title'>Contact Us</div>
-                            <div id='contact-para'>Name: Sravya Tadeparti</div>
+                            <div id='contact-para'>Name: Sravya Tadeparti<br/><br/>Phone number:6302123298<br/><br/>email:t2sravya@gmail.com</div>
                         </div>
-                        <div className='contact-right'></div>
+                        <div className='contact-right'>
+                            <div className='contact-circle'></div>
+                        </div>
                     </div>
                 </div>             
             </div>

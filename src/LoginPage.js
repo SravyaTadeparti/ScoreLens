@@ -29,7 +29,14 @@ const LoginPage = () => {
       const data = await response.json();
       if (response.ok) {
         alert(data.message);
-        if (isLogin) navigate('/dashboard');
+        // Navigate to the appropriate dashboard based on the role
+        if (isLogin) {
+          if (role === 'teacher') {
+            navigate('/Dashboard_p'); // Teacher's dashboard
+          } else {
+            navigate('/Dashboard_s'); // Student's dashboard
+          }
+        }
       } else {
         setError(data.message);
       }

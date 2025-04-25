@@ -52,3 +52,14 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.link-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1em;
+    padding: 0;
+}
+

@@ -30,23 +30,79 @@ export default function Dashboard_p() {
   const [error, setError] = useState(null);
   const [courses, setCourses] = useState([]);
 
+  useEffect(() => {
+    const storedCourses = localStorage.getItem('courses');
+    
+    if (storedCourses) {
+      // If courses are already stored in localStorage, load them
+      setCourses(JSON.parse(storedCourses));
+    } else {
+      // Otherwise, fetch the courses from the backend
+      const fetchCourses = async () => {
+        try {
+          const response = await fetch('http://localhost:5000/api/courses');
+          const data = await response.json();
+          
+          setCourses(data); // Store fetched courses into state
+          localStorage.setItem('courses', JSON.stringify(data)); // Save to localStorage for persistence
+        } catch (error) {
+          console.error('Error fetching courses:', error);
+        }
+      };
+      
+      fetchCourses(); // Fetch courses from backend if not in localStorage
+    }
+  }, []); // [] ensures this effect runs only once when the component mounts
+  
+
   const navigate = useNavigate();
 
-  const handleCreateCourse = () => {
+  const handleCreateCourse = async () => {
     const courseName = prompt('Enter course name:');
     if (!courseName) return;
   
     const courseCode = Math.random().toString(36).substring(2, 8).toUpperCase(); // random 6-char code
     const newCourse = {
       name: courseName,
-      professor: 'You', 
+      professor: 'You',
       description: 'Newly created course',
       code: courseCode
     };
   
-    setCourses(prev => [...prev, newCourse]);
-    alert(`Course "${courseName}" created with code: ${courseCode}`);
+    try {
+      const response = await fetch('http://localhost:5000/api/courses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCourse)
+      });
+  
+      if (response.ok) {
+        const savedCourse = await response.json();
+        setCourses(prev => [...prev, savedCourse]);
+        alert(`Course "${savedCourse.name}" created with code: ${savedCourse.code}`);
+      } else {
+        alert('Failed to create course.');
+      }
+    } catch (error) {
+      console.error('Error creating course:', error);
+      alert('Error creating course.');
+    }
   };
+
+  const handleDeleteCourse = async (courseName) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/courses/${courseName}`);
+      setCourses(prevCourses => prevCourses.filter(course => course.name !== courseName));
+      if (selectedCourse === courseName) {
+        setSelectedCourse(null);
+        setCourseData({});
+      }
+    } catch (error) {
+      console.error('Failed to delete course:', error);
+      setError('Failed to delete course');
+    }
+  };
+  
 
   const handleExcelUpload = async (e) => {
     const file = e.target.files[0];
@@ -121,12 +177,15 @@ export default function Dashboard_p() {
           <ul>
             {courses.map(course => (
               <li key={course.name}>
-                <a href="#" onClick={(e) => {
-                  e.preventDefault();
-                  setSelectedCourse(course.name);
-                }}>
-                  {course.name}
-                </a>
+                <div className="course-list-item">
+                  <a href="#" onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedCourse(course.name);
+                  }}>
+                    {course.name}
+                  </a>
+                  <button className="delete-btn" onClick={() => handleDeleteCourse(course.id)}>❌</button>
+                </div>
               </li>
             ))}
           </ul>

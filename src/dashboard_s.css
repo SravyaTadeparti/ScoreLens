@@ -1,4 +1,15 @@
-.dashboard {
+/* .dashboard {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #2c3e50;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* Header */
+ 
+  
+  .dashboard {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0f2f5;
     color: #2c3e50;
@@ -143,3 +154,18 @@
     background-color: #0056b3;
   }
   
+  .delete-btn {
+    background-color: #ff4d4f;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-btn:hover {
+    background-color: #d9363e;
+  }

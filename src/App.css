@@ -70,3 +70,43 @@
   color: #ffc107;
   font-weight: bold;
 }
+#right-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #003366; /* Theme color */
+  color: white;
+  padding: 20px;
+  box-shadow: -4px 0px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+#right-sidebar h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+#right-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+#right-sidebar ul li {
+  margin: 15px 0;
+}
+
+#right-sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+#right-sidebar ul li a:hover {
+  background-color: #ffcc00;
+  padding-left: 10px;
+  transition: 0.3s ease;
+}
+

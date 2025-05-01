@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Marksheets from './components/Marksheets'; // You’ll create this
+import './App.css'; // Ensure this line is here for CSS
 
 function App() {
   return (
     <Router>
       <div style={{ display: 'flex' }}>
+        {/* LEFT SIDEBAR */}
         <div style={{ width: '200px', background: '#f0f0f0', height: '100vh', padding: '20px' }}>
           <h2>ScoreLens</h2>
           <nav>
@@ -14,10 +16,21 @@ function App() {
             </ul>
           </nav>
         </div>
+
+        {/* MAIN CONTENT */}
         <div style={{ flex: 1, padding: '20px' }}>
           <Routes>
             <Route path="/marksheets" element={<Marksheets />} />
           </Routes>
+        </div>
+
+        {/* RIGHT SIDEBAR */}
+        <div className="right-sidebar">
+          <ul>
+            <li><a href="#marksheets">Mark Sheets</a></li>
+            <li><a href="#individual-scores">Individual Scores</a></li>
+            <li><a href="#ranks">Ranks</a></li>
+          </ul>
         </div>
       </div>
     </Router>

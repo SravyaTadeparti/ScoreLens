@@ -463,7 +463,7 @@ export default function Dashboard_p() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [courses, setCourses] = useState([]);
-    const [userId, setUserId] = useState(null); // Initialize to null
+    const [userId, setUserId] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [showCreateCourse, setShowCreateCourse] = useState(false);
     const navigate = useNavigate();
@@ -472,14 +472,12 @@ export default function Dashboard_p() {
         const storedUserId = localStorage.getItem('user_id');
         if (storedUserId) {
             setUserId(storedUserId);
-            console.log("Dashboard_p: userId set to:", storedUserId);
             const fetchCourses = async () => {
                 try {
                     const response = await fetch(`http://localhost:5000/api/courses?professor_id=${storedUserId}`);
                     const data = await response.json();
                     setCourses(data);
                 } catch (error) {
-                    console.error('Error fetching courses:', error);
                     setError('Failed to fetch courses.');
                 }
             };
@@ -502,16 +500,10 @@ export default function Dashboard_p() {
 
         const courseName = document.getElementById('courseName').value;
         const professorId = parseInt(userId, 10);
-        console.log("Dashboard_p: userId before creating course:", userId);
-        console.log("Dashboard_p: localStorage user_id:", localStorage.getItem('user_id'));
         const formData = new FormData();
         formData.append('name', courseName);
         formData.append('professor_id', professorId);
         formData.append('file', selectedFile);
-
-        for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
 
         try {
             const response = await fetch('http://localhost:5000/api/courses', {
@@ -531,7 +523,6 @@ export default function Dashboard_p() {
                 setError(data.error);
             }
         } catch (error) {
-            console.error('Error creating course:', error);
             setError('Failed to create course.');
         } finally {
             setLoading(false);
@@ -553,7 +544,6 @@ export default function Dashboard_p() {
                 setError(data.message || 'Failed to delete course');
             }
         } catch (error) {
-            console.error('Failed to delete course:', error);
             setError('Failed to delete course');
         }
     };
@@ -635,7 +625,7 @@ export default function Dashboard_p() {
                     <ul>
                         {courses.map(course => (
                             <li key={course.name}>
-                                 <div className="course-list-item">
+                                <div className="course-list-item">
                                     <a href="#" onClick={(e) => {
                                         e.preventDefault();
                                         setSelectedCourse(course.name);
@@ -649,67 +639,75 @@ export default function Dashboard_p() {
                     </ul>
                 </aside>
 
-                <main className="main-content">
-                    <h2>{selectedCourse ? `${selectedCourse} Scores` : 'Select a Course'}</h2>
+                <div className="main-layout">
+                    <main className="main-content">
+                        <h2>{selectedCourse ? `${selectedCourse} Scores` : 'Select a Course'}</h2>
 
-                    {showCreateCourse && (
-                        <div className="create-course-form">
-                            <input type="text" id="courseName" placeholder="Course Name" />
-                            <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
-                            <button onClick={handleCreateCourse} disabled={loading}>
-                                {loading ? 'Creating...' : 'Create Course'}
-                            </button>
-                            {error && <p className="error-message">{error}</p>}
-                        </div>
-                    )}
-
-                    {!selectedCourse ? (
-                         <div className="course-grid">
-                            {courses.map(course => (
-                                <div
-                                    key={course.name}
-                                    className="course-card"
-                                    onClick={() => setSelectedCourse(course.name)}
-                                >
-                                    <h1>{course.name}</h1>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <>
-                            <div className="chart-wrapper">
-                                <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
-                            </div>
-
-                            <div className="upload-section">
-                                <label className="upload-btn">
-                                    📄 Upload Excel Sheet for {selectedCourse}
-                                    <input type="file" accept=".xlsx, .xls" onChange={handleExcelUpload} hidden />
-                                </label>
-                                {loading && <p>Uploading...</p>}
+                        {showCreateCourse && (
+                            <div className="create-course-form">
+                                <input type="text" id="courseName" placeholder="Course Name" />
+                                <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
+                                <button onClick={handleCreateCourse} disabled={loading}>
+                                    {loading ? 'Creating...' : 'Create Course'}
+                                </button>
                                 {error && <p className="error-message">{error}</p>}
                             </div>
+                        )}
 
-                            {selectedData.stats && (
-                                <div className="stats-panel">
-                                    <h4>Statistics</h4>
-                                    <ul>
-                                        <li>Average: {selectedData.stats.average}</li>
-                                        <li>Minimum: {selectedData.stats.min}</li>
-                                        <li>Maximum: {selectedData.stats.max}</li>
-                                        <li>25th Percentile: {selectedData.stats["25th_percentile"]}</li>
-                                        <li>Median: {selectedData.stats["50th_percentile"]}</li>
-                                        <li>75th Percentile: {selectedData.stats["75th_percentile"]}</li>
-                                    </ul>
+                        {!selectedCourse ? (
+                            <div className="course-grid">
+                                {courses.map(course => (
+                                    <div
+                                        key={course.name}
+                                        className="course-card"
+                                        onClick={() => setSelectedCourse(course.name)}
+                                    >
+                                        <h1>{course.name}</h1>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <>
+                                <div className="chart-wrapper">
+                                    <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
                                 </div>
-                            )}
-                        </>
-                    )}
-                </main>
+
+                                <div className="upload-section">
+                                    <label className="upload-btn">
+                                        📄 Upload Excel Sheet for {selectedCourse}
+                                        <input type="file" accept=".xlsx, .xls" onChange={handleExcelUpload} hidden />
+                                    </label>
+                                    {loading && <p>Uploading...</p>}
+                                    {error && <p className="error-message">{error}</p>}
+                                </div>
+
+                                {selectedData.stats && (
+                                    <div className="stats-panel">
+                                        <h4>Statistics</h4>
+                                        <ul>
+                                            <li>Average: {selectedData.stats.average}</li>
+                                            <li>Minimum: {selectedData.stats.min}</li>
+                                            <li>Maximum: {selectedData.stats.max}</li>
+                                            <li>25th Percentile: {selectedData.stats["25th_percentile"]}</li>
+                                            <li>Median: {selectedData.stats["50th_percentile"]}</li>
+                                            <li>75th Percentile: {selectedData.stats["75th_percentile"]}</li>
+                                        </ul>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </main>
+
+                    <aside className="right-sidebar">
+                        <h3>Actions / Summary</h3>
+                        <p>You can add recent uploads, graphs, links, or any quick info here.</p>
+                    </aside>
+                </div>
             </div>
         </div>
     );
 }
+
 
 // import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';

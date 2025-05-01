@@ -1,62 +1,41 @@
 import React, { useState } from 'react';
 
-const Marksheets = () => {
-  const [file, setFile] = useState(null);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+function Marksheets() {
   const [uploads, setUploads] = useState([]);
+  const [file, setFile] = useState(null);
+  const [testName, setTestName] = useState('');
 
   const handleUpload = () => {
-    if (!file || !name) return;
-
-    const newUpload = {
-      name,
-      description,
-      fileName: file.name,
-      uploadedAt: new Date().toLocaleString(),
-    };
-
+    if (!file || !testName) return alert("Please select a file and enter a test name.");
+    
+    const newUpload = { name: testName, fileName: file.name };
     setUploads([...uploads, newUpload]);
     setFile(null);
-    setName('');
-    setDescription('');
+    setTestName('');
   };
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Upload Marksheets</h2>
-      <input type="file" accept=".xlsx" onChange={(e) => setFile(e.target.files[0])} />
+      <h2>Upload Marksheets</h2>
+      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
       <input
         type="text"
-        placeholder="Enter marksheet name (e.g., M1, Finals)"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="block mt-2 border p-1"
+        placeholder="Enter test name (e.g. M1)"
+        value={testName}
+        onChange={(e) => setTestName(e.target.value)}
       />
-      <textarea
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="block mt-2 border p-1 w-96"
-      />
-      <button
-        onClick={handleUpload}
-        className="bg-blue-500 text-white px-4 py-2 mt-2 rounded"
-      >
-        Upload
-      </button>
+      <button onClick={handleUpload}>Upload</button>
 
-      <h3 className="text-xl mt-6 mb-2">Previous Uploads</h3>
+      <h3>Uploaded Marksheets:</h3>
       <ul>
-        {uploads.map((u, idx) => (
-          <li key={idx} className="border p-2 mb-2 rounded bg-gray-100">
-            <strong>{u.name}</strong> - {u.description} <br />
-            <em>Uploaded: {u.uploadedAt}</em>
+        {uploads.map((upload, idx) => (
+          <li key={idx}>
+            📄 <strong>{upload.name}</strong> - {upload.fileName}
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}
 
 export default Marksheets;

@@ -1,17 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import Marksheets from './components/Marksheets';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Marksheets from './components/Marksheets'; // You’ll create this
 
 function App() {
   return (
     <Router>
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-grow p-6">
+      <div style={{ display: 'flex' }}>
+        <div style={{ width: '200px', background: '#f0f0f0', height: '100vh', padding: '20px' }}>
+          <h2>ScoreLens</h2>
+          <nav>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              <li><Link to="/marksheets">Marksheets</Link></li>
+              {/* Add more links like Individual Scores, Ranks etc later */}
+            </ul>
+          </nav>
+        </div>
+        <div style={{ flex: 1, padding: '20px' }}>
           <Routes>
             <Route path="/marksheets" element={<Marksheets />} />
-            {/* You can add other routes later like individual-scores, ranks, etc. */}
           </Routes>
         </div>
       </div>

@@ -36,3 +36,37 @@
     transform: rotate(360deg);
   }
 }
+.right-sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #f9f9f9;
+  border-left: 2px solid #ffc107;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  padding: 1rem;
+  font-family: inherit;
+  z-index: 1000;
+}
+
+.right-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.right-sidebar li {
+  margin: 1rem 0;
+}
+
+.right-sidebar a {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.right-sidebar a:hover {
+  color: #ffc107;
+  font-weight: bold;
+}

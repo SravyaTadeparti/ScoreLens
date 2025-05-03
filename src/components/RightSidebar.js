@@ -1,15 +1,17 @@
 import React from 'react';
-import './RightSidebar.css'; // Import the CSS file
+import './RightSidebar.css'; // Create this CSS file for styling
 
-const RightSidebar = () => {
+const RightSidebar = ({ marksheets, onUpload, onSelect }) => {
   return (
     <div className="right-sidebar">
-      <h2>Dashboard</h2>
+      <h2>Marksheets</h2>
+      <button onClick={onUpload}>Upload Marksheet</button>
       <ul>
-        <li><a href="#">Link 1</a></li>
-        <li><a href="#">Link 2</a></li>
-        <li><a href="#">Link 3</a></li>
-        <li><a href="#">Link 4</a></li>
+        {marksheets.map((sheet, index) => (
+          <li key={index} onClick={() => onSelect(sheet)}>
+            {sheet.name}
+          </li>
+        ))}
       </ul>
     </div>
   );

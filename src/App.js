@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Marksheets from './components/Marksheets'; // You’ll create this
 import './App.css'; // Ensure this line is here for CSS
-import Sidebar from './components/RightSidebar'; // Adjust the path if necessary
+import RightSidebar from './components/RightSidebar'; // Adjust the path if necessary
 
 
 function App() {

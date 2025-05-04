@@ -6,7 +6,7 @@
   margin: 0;
 }
 
-/* Header */
+
 .dashboard .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -36,7 +36,7 @@
   color: #ffd000;
 }
 
-/* Body layout */
+
 .dashboard .dashboard-body {
   display: flex;
   height: calc(100vh - 80px);
@@ -78,7 +78,7 @@
   color: #14273f;
 }
 
-/* Main content */
+
 .dashboard .main-content {
   flex: 1;
   padding: 30px;
@@ -109,7 +109,7 @@
   color: #14273f;
 }
 
-/* Chart area */
+
 .dashboard .chart-wrapper {
   max-width: 900px;
   height: 400px;
@@ -142,7 +142,6 @@
 .upload-btn:hover {
   background-color: #0056b3;
 }
-/* Right Sidebar */
 .dashboard .right-sidebar {
   width: 250px;
   background-color: #6d8db6;

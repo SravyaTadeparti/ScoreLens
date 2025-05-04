@@ -145,8 +145,8 @@
 //                   onClick={() => setSelectedCourse(course.name)}
 //                 >
 //                   <h1>{course.name}</h1>
-//                   {/* <p><strong>{course.professor}</strong></p> */}
-//                   {/* <p>{course.description}</p> */}
+//                   {/* <p><strong>{course.professor} </strong></p> */}
+//                   {/* <p>{course.description} </p> */}
 //                 </div>
 //               ))}
 //             </div>

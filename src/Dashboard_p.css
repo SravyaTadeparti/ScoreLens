@@ -142,3 +142,39 @@
 .upload-btn:hover {
   background-color: #0056b3;
 }
+/* Right Sidebar */
+.dashboard .right-sidebar {
+  width: 250px;
+  background-color: #6d8db6;
+  padding: 20px;
+  color: #0e2744;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.dashboard .right-sidebar h3 {
+  margin-bottom: 15px;
+}
+
+.dashboard .right-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard .right-sidebar li {
+  margin-bottom: 10px;
+}
+
+.dashboard .right-sidebar a {
+  text-decoration: none;
+  color: #0e2744;
+  padding: 10px;
+  display: block;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.dashboard .right-sidebar a:hover {
+  background-color: #ffd000;
+  color: #14273f;
+}

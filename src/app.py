@@ -581,6 +581,7 @@ bcrypt = Bcrypt(app)
 
 DB_NAME = 'student_scores.db'
 
+<<<<<<< HEAD
 # ----------------- User Auth Model -----------------
 =======
 # SQLite database configuration
@@ -595,6 +596,8 @@ STUDENT_DB_NAME = 'student_scores.db'
 
 # User model
 >>>>>>> 2a29e274376e2878185e36bf9ed2dd9a526fa61e
+=======
+>>>>>>> 3357a6ce5d253a82ddb71c03ca6f30d8402a9f39
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -605,7 +608,6 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-# ----------------- Auth Route -----------------
 @app.route('/api/auth', methods=['POST'])
 def auth():
     data = request.json
@@ -686,7 +688,10 @@ def auth():
     return jsonify({"message": "Invalid action!"}), 400
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # ----------------- Upload Route -----------------
+=======
+>>>>>>> 3357a6ce5d253a82ddb71c03ca6f30d8402a9f39
 @app.route('/upload', methods=['POST'])
 def upload_file():
 =======
@@ -825,7 +830,6 @@ def upload_scores(course_id):
         print("Upload error:", e)
         return jsonify({'error': str(e)}), 500
 
-# ----------------- Run App -----------------
 if __name__ == '__main__':
 <<<<<<< HEAD
     app.run(port=5001, debug=True)

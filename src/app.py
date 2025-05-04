@@ -9,7 +9,6 @@ import numpy as np
 app = Flask(__name__)
 CORS(app)
 
-# User auth DB config
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -21,7 +20,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    role = db.Column(db.String(20), nullable=False)  # "student" or "teacher"
+    role = db.Column(db.String(20), nullable=False)  
 
 with app.app_context():
     db.create_all()
@@ -81,7 +80,6 @@ def upload_file():
         conn = sqlite3.connect(DB_NAME)
         c = conn.cursor()
 
-        # Create table if not exists
         c.execute(f'''
             CREATE TABLE IF NOT EXISTS "{table_name}" (
                 Name TEXT PRIMARY KEY,
@@ -89,7 +87,6 @@ def upload_file():
             )
         ''')
 
-        # Clear existing data
         c.execute(f'DELETE FROM "{table_name}"')
 
         for _, row in df.iterrows():
@@ -100,7 +97,6 @@ def upload_file():
 
         conn.commit()
 
-        # Fetch updated data
         c.execute(f'SELECT Name, Marks FROM "{table_name}"')
         stored_data = c.fetchall()
         conn.close()

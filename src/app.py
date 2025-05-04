@@ -17,7 +17,6 @@ bcrypt = Bcrypt(app)
 
 DB_NAME = 'student_scores.db'
 
-# ----------------- User Auth Model -----------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -27,7 +26,6 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-# ----------------- Auth Route -----------------
 @app.route('/api/auth', methods=['POST'])
 def auth():
     data = request.json
@@ -60,7 +58,6 @@ def auth():
 
     return jsonify({"message": "Invalid action!"}), 400
 
-# ----------------- Upload Route -----------------
 @app.route('/upload', methods=['POST'])
 def upload_file():
     file = request.files.get('file')
@@ -129,6 +126,5 @@ def upload_file():
         print("Upload error:", e)
         return jsonify({'error': str(e)}), 500
 
-# ----------------- Run App -----------------
 if __name__ == '__main__':
     app.run(port=5001, debug=True)

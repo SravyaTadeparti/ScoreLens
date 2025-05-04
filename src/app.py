@@ -573,7 +573,10 @@ app = Flask(__name__)
 CORS(app)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # User auth DB config
+=======
+>>>>>>> b60f733fb710984db20cfd98c46dd592dbf23933
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -603,7 +606,11 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
 <<<<<<< HEAD
+<<<<<<< HEAD
     role = db.Column(db.String(20), nullable=False)  # "student" or "teacher"
+=======
+    role = db.Column(db.String(20), nullable=False)  
+>>>>>>> b60f733fb710984db20cfd98c46dd592dbf23933
 
 with app.app_context():
     db.create_all()
@@ -785,7 +792,6 @@ def upload_scores(course_id):
         conn = sqlite3.connect(STUDENT_DB_NAME)
         c = conn.cursor()
 
-        # Create table if not exists
         c.execute(f'''
             CREATE TABLE IF NOT EXISTS "{table_name}" (
                 Name TEXT PRIMARY KEY,
@@ -793,7 +799,6 @@ def upload_scores(course_id):
             )
         ''')
 
-        # Clear existing data
         c.execute(f'DELETE FROM "{table_name}"')
 
         for _, row in df.iterrows():
@@ -804,7 +809,6 @@ def upload_scores(course_id):
 
         conn.commit()
 
-        # Fetch updated data
         c.execute(f'SELECT Name, Marks FROM "{table_name}"')
         stored_data = c.fetchall()
         conn.close()

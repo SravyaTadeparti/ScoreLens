@@ -569,6 +569,7 @@ import sqlite3
 import numpy as np
 import os
 
+
 app = Flask(__name__)
 CORS(app)
 
@@ -605,6 +606,16 @@ class Enrollment(db.Model):
     student_email = db.Column(db.String(100), nullable=False)
     __table_args__ = (db.UniqueConstraint('course_id', 'student_email', name='_course_student_unique'),)
 
+
+# class Math(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     Name = db.Column(db.String(100))
+#     Marks = db.Column(db.Integer)
+
+# class Physics(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     Name = db.Column(db.String(100))
+#     Marks = db.Column(db.Integer)
 # Create the tables
 with app.app_context():
     db.create_all()
@@ -656,7 +667,7 @@ def get_courses():
 
     if user_id:
         courses = Course.query.filter_by(professor_id=user_id).all()
-        course_list = [{"id": c.id, "name": c.name, "code": c.code} for c in courses]
+        course_list = [{"id": c.id, "name": c.name, "code": c.code, "email":c.email} for c in courses]
         return jsonify(course_list), 200
     elif student_email:  # Use student_email
         # Find courses where the student is enrolled
@@ -782,6 +793,23 @@ def upload_scores(course_id):
     except Exception as e:
         print("Upload error:", e)
         return jsonify({'error': str(e)}), 500
+
+# @app.route('/api/course_scores', methods=['GET'])
+# def get_course_scores():
+#     course_name = request.args.get('course_name')
+
+#     table_map = {
+#         "Math": Math,
+#         "Physics": Physics
+#     }
+
+#     if course_name not in table_map:
+#         return jsonify({"error": "Invalid course name"}), 404
+
+#     course_model = table_map[course_name]
+#     scores = course_model.query.all()
+#     result = [{"name": s.Name, "marks": s.Marks} for s in scores]
+#     return jsonify(result), 200
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

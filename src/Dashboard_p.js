@@ -145,8 +145,8 @@
 //                   onClick={() => setSelectedCourse(course.name)}
 //                 >
 //                   <h1>{course.name}</h1>
-//                   {/* <p><strong>{course.professor} </strong></p> */}
-//                   {/* <p>{course.description} </p> */}
+//                   {/* <p><strong>{course.professor}</strong></p> */}
+//                   {/* <p>{course.description}</p> */}
 //                 </div>
 //               ))}
 //             </div>
@@ -463,21 +463,24 @@ export default function Dashboard_p() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [courses, setCourses] = useState([]);
-    const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState(null); // Initialize to null
     const [selectedFile, setSelectedFile] = useState(null);
     const [showCreateCourse, setShowCreateCourse] = useState(false);
     const navigate = useNavigate();
-
+    
+      
     useEffect(() => {
         const storedUserId = localStorage.getItem('user_id');
         if (storedUserId) {
             setUserId(storedUserId);
+            console.log("Dashboard_p: userId set to:", storedUserId);
             const fetchCourses = async () => {
                 try {
                     const response = await fetch(`http://localhost:5000/api/courses?professor_id=${storedUserId}`);
                     const data = await response.json();
                     setCourses(data);
                 } catch (error) {
+                    console.error('Error fetching courses:', error);
                     setError('Failed to fetch courses.');
                 }
             };
@@ -500,10 +503,16 @@ export default function Dashboard_p() {
 
         const courseName = document.getElementById('courseName').value;
         const professorId = parseInt(userId, 10);
+        console.log("Dashboard_p: userId before creating course:", userId);
+        console.log("Dashboard_p: localStorage user_id:", localStorage.getItem('user_id'));
         const formData = new FormData();
         formData.append('name', courseName);
         formData.append('professor_id', professorId);
         formData.append('file', selectedFile);
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
 
         try {
             const response = await fetch('http://localhost:5000/api/courses', {
@@ -523,6 +532,7 @@ export default function Dashboard_p() {
                 setError(data.error);
             }
         } catch (error) {
+            console.error('Error creating course:', error);
             setError('Failed to create course.');
         } finally {
             setLoading(false);
@@ -544,6 +554,7 @@ export default function Dashboard_p() {
                 setError(data.message || 'Failed to delete course');
             }
         } catch (error) {
+            console.error('Failed to delete course:', error);
             setError('Failed to delete course');
         }
     };
@@ -606,7 +617,124 @@ export default function Dashboard_p() {
             }
         ]
     };
+// rightside bar excel start
+const [uploadedFilesData, setUploadedFilesData] = useState([]); 
 
+// const handleMultipleExcelUpload = async (e) => {
+//     const files = Array.from(e.target.files);
+//     if (files.length === 0 || !selectedCourse) return;
+
+//     setLoading(true);
+//     setError(null);
+
+//     try {
+//         const course = courses.find(c => c.name === selectedCourse);
+//         if (!course) {
+//             setError("Course not found");
+//             setLoading(false);
+//             return;
+//         }
+
+//         const newData = [];
+
+//         for (const file of files) {
+//             const formData = new FormData();
+//             formData.append('file', file);
+
+//             const response = await fetch(`http://localhost:5000/api/upload_scores/${course.id}`, {
+//                 method: 'POST',
+//                 body: formData
+//             });
+
+//             const result = await response.json();
+
+//             if (!response.ok) {
+//                 throw new Error(result.error || 'Upload failed');
+//             }
+
+//             newData.push({
+//                 fileName: file.name,
+//                 labels: result.labels,
+//                 scores: result.scores,
+//                 stats: result.statistics,
+//             });
+//         }
+
+//         // Append to existing uploads
+//         setUploadedFilesData(prev => [...prev, ...newData]);
+
+//     } catch (err) {
+//         setError(`Error uploading files: ${err.message}`);
+//     } finally {
+//         setLoading(false);
+//     }
+// };
+
+
+const handleMultipleExcelUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0 || !selectedCourse) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+        const course = courses.find(c => c.name === selectedCourse);
+        if (!course) {
+            setError("Course not found");
+            setLoading(false);
+            return;
+        }
+
+        const newData = [];
+
+        for (const file of files) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch(`http://localhost:5000/api/upload_scores/${course.id}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Upload failed');
+            }
+
+            newData.push({
+                fileName: file.name,
+                labels: result.labels,
+                scores: result.scores,
+                stats: result.statistics,
+            });
+        }
+
+        setUploadedFilesData(prev => ({
+            ...prev,
+            [selectedCourse]: [...(prev[selectedCourse] || []), ...newData]
+        }));
+
+    } catch (err) {
+        setError(`Error uploading files: ${err.message}`);
+    } finally {
+        setLoading(false);
+    }
+};
+
+const percentile = (arr, p) => {
+    if (arr.length === 0) return 0;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const idx = (p / 100) * (sorted.length - 1);
+    const lower = Math.floor(idx);
+    const upper = Math.ceil(idx);
+    if (lower === upper) return sorted[lower];
+    return sorted[lower] + (sorted[upper] - sorted[lower]) * (idx - lower);
+};
+
+
+// right side bar excel end 
     return (
         <div className="dashboard">
             <header className="dashboard-header">
@@ -625,7 +753,7 @@ export default function Dashboard_p() {
                     <ul>
                         {courses.map(course => (
                             <li key={course.name}>
-                                <div className="course-list-item">
+                                 <div className="course-list-item">
                                     <a href="#" onClick={(e) => {
                                         e.preventDefault();
                                         setSelectedCourse(course.name);
@@ -635,79 +763,121 @@ export default function Dashboard_p() {
                                     <button className="delete-btn" onClick={() => handleDeleteCourse(course.id)}>❌</button>
                                 </div>
                             </li>
-                        ))}
+                        ))} 
                     </ul>
                 </aside>
 
-                <div className="main-layout">
-                    <main className="main-content">
-                        <h2>{selectedCourse ? `${selectedCourse} Scores` : 'Select a Course'}</h2>
+                <main className="main-content">
+                    <h2>{selectedCourse ? `${selectedCourse} Scores` : 'Select a Course'}</h2>
 
-                        {showCreateCourse && (
-                            <div className="create-course-form">
-                                <input type="text" id="courseName" placeholder="Course Name" />
-                                <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
-                                <button onClick={handleCreateCourse} disabled={loading}>
-                                    {loading ? 'Creating...' : 'Create Course'}
-                                </button>
+                    {showCreateCourse && (
+                        <div className="create-course-form">
+                            <input type="text" id="courseName" placeholder="Course Name" />
+                            <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
+                            <button onClick={handleCreateCourse} disabled={loading}>
+                                {loading ? 'Creating...' : 'Create Course'}
+                            </button>
+                            {error && <p className="error-message">{error}</p>}
+                        </div>
+                    )}
+
+                    {!selectedCourse ? (
+                         <div className="course-grid">
+                            {courses.map(course => (
+                                <div
+                                    key={course.name}
+                                    className="course-card"
+                                    onClick={() => setSelectedCourse(course.name)}
+                                >
+                                    <h1>{course.name}</h1>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <>
+                            <div className="chart-wrapper">
+                                <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
+                            </div>
+
+                            <div className="upload-section">
+                                <label className="upload-btn">
+                                    📄 Upload Excel Sheet for {selectedCourse}
+                                    <input type="file" accept=".xlsx, .xls" onChange={handleExcelUpload} hidden />
+                                </label>
+                                {loading && <p>Uploading...</p>}
                                 {error && <p className="error-message">{error}</p>}
                             </div>
-                        )}
 
-                        {!selectedCourse ? (
-                            <div className="course-grid">
-                                {courses.map(course => (
-                                    <div
-                                        key={course.name}
-                                        className="course-card"
-                                        onClick={() => setSelectedCourse(course.name)}
-                                    >
-                                        <h1>{course.name}</h1>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <>
-                                <div className="chart-wrapper">
-                                    <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
+                            {selectedData.stats && (
+                                <div className="stats-panel">
+                                    <h4>Statistics</h4>
+                                    <ul>
+                                        <li>Average: {selectedData.stats.average}</li>
+                                        <li>Minimum: {selectedData.stats.min}</li>
+                                        <li>Maximum: {selectedData.stats.max}</li>
+                                        <li>25th Percentile: {selectedData.stats["25th_percentile"]}</li>
+                                        <li>Median: {selectedData.stats["50th_percentile"]}</li>
+                                        <li>75th Percentile: {selectedData.stats["75th_percentile"]}</li>
+                                    </ul>
                                 </div>
+                            )}
+                             {(uploadedFilesData[selectedCourse] || []).map((data, idx) => (
 
-                                <div className="upload-section">
-                                    <label className="upload-btn">
-                                        📄 Upload Excel Sheet for {selectedCourse}
-                                        <input type="file" accept=".xlsx, .xls" onChange={handleExcelUpload} hidden />
-                                    </label>
-                                    {loading && <p>Uploading...</p>}
-                                    {error && <p className="error-message">{error}</p>}
-                                </div>
-
-                                {selectedData.stats && (
-                                    <div className="stats-panel">
-                                        <h4>Statistics</h4>
-                                        <ul>
-                                            <li>Average: {selectedData.stats.average}</li>
-                                            <li>Minimum: {selectedData.stats.min}</li>
-                                            <li>Maximum: {selectedData.stats.max}</li>
-                                            <li>25th Percentile: {selectedData.stats["25th_percentile"]}</li>
-                                            <li>Median: {selectedData.stats["50th_percentile"]}</li>
-                                            <li>75th Percentile: {selectedData.stats["75th_percentile"]}</li>
-                                        </ul>
+                                <div key={idx} className="uploaded-chart">
+                                    <h4>{data.fileName}</h4>
+                                    <div className="mini-chart-container">
+                                        <Line
+                                            data={{
+                                                labels: data.labels,
+                                                datasets: [{
+                                                    label: 'Marks',
+                                                    data: data.scores,
+                                                    borderColor: '#28a745',
+                                                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                                                    borderWidth: 2,
+                                                    tension: 0.3
+                                                }]
+                                            }}
+                                            options={{
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: {
+                                                    legend: {
+                                                        display: false
+                                                    }
+                                                },
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true
+                                                    }
+                                                }
+                                            }}
+                                        />
                                     </div>
-                                )}
-                            </>
-                        )}
-                    </main>
 
-                    <aside className="right-sidebar">
-                        <h3>Actions / Summary</h3>
-                        <p>You can add recent uploads, graphs, links, or any quick info here.</p>
-                    </aside>
+                                </div>
+))}
+           
+                        </>
+                    )}
+                </main>
+                {/* right side bar start */}
+              <div className="right-sidebar">
+                <h2>Marksheets</h2>
+
+                <label className="upload-btn" style={{fontSize:'12px'}}>
+                    📄 Upload Excel Sheet
+                    <input type="file" accept=".xlsx, .xls" multiple onChange={handleMultipleExcelUpload} hidden />
+                </label>
+
+                {loading && <p>Uploading...</p>}
+                {error && <p className="error-message">{error}</p>}
                 </div>
+              {/* right side bar end  */}
             </div>
         </div>
     );
 }
-
 
 // import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';

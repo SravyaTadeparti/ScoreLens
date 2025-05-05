@@ -171,8 +171,15 @@ export default function Dashboard_s() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [userEmail, setUserEmail] = useState(null); //state to store email
+    const [stats, setStats] = useState(null);
+
+    const[courseId, setcourseId] = useState(null);
+    const [chartData_s, setChartData_s] = useState(null);
 
     useEffect(() => {
+
+       
+
         const storedEmail = localStorage.getItem('email');
         if (storedEmail) {
             setUserEmail(storedEmail);
@@ -185,7 +192,7 @@ export default function Dashboard_s() {
                 return;
             }
             try {
-                const response = await fetch(`http://localhost:5000/api/courses?student_email=${storedEmail}`);
+                const response = await fetch(`http://localhost:5000/api/courses?student_email=${storedEmail}`); //change api where marks is shown in the response to display in the chart
                 if (!response.ok) {
                     throw new Error(`Failed to fetch courses: ${response.status}`);
                 }
@@ -201,7 +208,7 @@ export default function Dashboard_s() {
         if (storedEmail) {
             fetchCourses();
         }
-    }, [userEmail]);
+    }, [userEmail] , [courseId]);
 
     const defaultScores = {
         Mathematics: [78, 85, 90, 72, 88, 95],
@@ -253,6 +260,53 @@ export default function Dashboard_s() {
     if (error) {
         return <div>Error: {error}</div>;
     }
+
+    // dashboard_p starts
+    // const fetchScores = async (courseId) => {
+    //     const email = localStorage.getItem("email"); // or however you're storing it
+    //         alert("email "+email);
+    //     try {
+    //       const response = await fetch(`http://localhost:5000/api/courses?student_email=${email}`);
+    //       const data = await response.json();
+      
+    //       if (response.ok) {
+    //         alert("response "+ toString(response));
+    //         setChartData_s({
+    //           labels: data.labels,
+    //           datasets: [{
+    //             label: 'Marks',
+    //             data: data.scores,
+    //             borderColor: '#007BFF',
+    //             backgroundColor: 'rgba(0, 123, 255, 0.2)',
+    //             borderWidth: 2,
+    //             tension: 0.4
+    //           }]
+    //         });
+      
+    //         setStats(data.statistics);
+    //       } else {
+    //         console.error("Failed to fetch scores", data.error);
+    //       }
+    //     } catch (error) {
+    //       console.error("Error fetching scores:", error);
+    //     }
+    //   };
+      
+    const fetchScores = async () => {
+        const email = localStorage.getItem("email"); // Or however you get the student email
+        try {
+            const res = await fetch(`http://localhost:5000/api/courses?student_email=${email}`);
+            const data = await res.json();
+            console.log("Fetched student courses:", data);
+            setCourses(data); // Make sure this line exists
+        } catch (err) {
+            console.error("Failed to fetch student courses", err);
+        }
+    };
+
+    
+    
+    //dashboard_p end 
 
     return (
         <div className="dashboard">
@@ -315,8 +369,38 @@ export default function Dashboard_s() {
                                     <input type="file" accept=".xlsx, .xls" onChange={handleExcelUpload} hidden />
                                 </label>
                             </div>
+                            <div>
+                                <p>
+                                {courses.map(course => (
+    <button key={course.id} onClick={() => fetchScores('893662B0')}>
+        {course.name}
+
+    </button>
+    
+    
+))}{chartData && (
+    <div>
+        <Line data={chartData} />
+    </div>
+)}
+
+{stats && (
+    <ul>
+        <li>Average: {stats.average}</li>
+        <li>Min: {stats.min}</li>
+        <li>Max: {stats.max}</li>
+        <li>P25: {stats["25th_percentile"]}</li>
+        <li>Median: {stats["50th_percentile"]}</li>
+        <li>P75: {stats["75th_percentile"]}</li>
+    </ul>
+)}
+
+
+                                </p>
+                            </div>
                         </>
                     )}
+                    
                 </main>
             </div>
         </div>
